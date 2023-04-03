@@ -6,19 +6,28 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+jobs:
+  - job: Build
+    timeoutInMinutes: 30 # how long to run the job before automatically cancelling
+    cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before stopping them
+    displayName: Build and test
+    pool: 
+      name: onPrem
+    
+    steps:
+        - task: DownloadSecureFile@1
+          name: ca_cert_pem
+          displayName: 'Download ca.cert.pem'
+          inputs:
+            secureFile: 'myCACertificate.pem'
+        - task: NodeTool@0
+          inputs:
+          versionSpec: '10.x'
+          displayName: 'Install Node.js'
+          script: |
+            npm install
+            npm run build
+            displayName: 'npm install and build'
 
 
 # Download secure file v1
