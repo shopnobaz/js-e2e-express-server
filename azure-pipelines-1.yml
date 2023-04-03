@@ -10,6 +10,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: DownloadSecureFile@1
+  name: ca_cert_pem
+  displayName: 'Download ca.cert.pem'
+  inputs:
+    secureFile: 'myCACertificate.pem'
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
