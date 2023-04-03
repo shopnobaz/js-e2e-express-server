@@ -19,3 +19,12 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+
+
+# Download secure file v1
+# Download a secure file to the agent machine.
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: # string. Required. Secure File. 
+    #retryCount: '8' # string. Retry Count. Default: 8.
+    #socketTimeout: # string. Socket Timeout.
