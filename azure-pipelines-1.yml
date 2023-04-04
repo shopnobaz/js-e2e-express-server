@@ -6,23 +6,33 @@
 trigger:
 - main
 
-pool:
-  name: onPrem
-  demands: 
-    - Agent.OS -equals Linux 
+jobs:
+- job: Windows 
+  pool:
+    name: onPrem
+    demands: 
+      - Agent.OS -equals Linux
 
-steps:
-- task: DownloadSecureFile@1
-  name: ca_cert_pem
-  displayName: 'Download ca.cert.pem'
-  inputs:
-    secureFile: 'myCACertificate.pem'
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  steps:
+  - task: DownloadSecureFile@1
+    name: ca_cert_pem
+    displayName: 'Download ca.cert.pem'
+    inputs:
+      secureFile: 'myCACertificate.pem'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+  - script: |
+      npm install
+      npm run build
+    displayName: 'npm install and build'
+
+- job: Linux
+  pool:
+    name: onPrem
+    demands: 
+      - Agent.OS -equals Linux 
+  steps:
+  - script: echo hello from second job
